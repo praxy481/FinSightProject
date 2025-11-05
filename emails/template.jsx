@@ -43,14 +43,26 @@ const PREVIEW_DATA = {
       totalExpenses: 3400,
     },
   },
+  budgetExceeded: {
+    userName: "John Doe",
+    type: "budget-exceeded",
+    data: {
+      overAmount: 250,
+      budgetAmount: 4000,
+      totalExpenses: 4250,
+    },
+  },
 };
 
+// === THIS IS THE FIX ===
+// The function now DEFAULTS to the "budget-exceeded" email.
 export default function EmailTemplate({
-  userName = "",
-  type = "monthly-report",
-  data = {},
+  userName = PREVIEW_DATA.budgetExceeded.userName,
+  type = "budget-exceeded",
+  data = PREVIEW_DATA.budgetExceeded.data,
 }) {
   if (type === "monthly-report") {
+    // ... (Monthly report code is unchanged) ...
     return (
       <Html>
         <Head />
@@ -58,13 +70,10 @@ export default function EmailTemplate({
         <Body style={styles.body}>
           <Container style={styles.container}>
             <Heading style={styles.title}>Monthly Financial Report</Heading>
-
             <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
               Here&rsquo;s your financial summary for {data?.month}:
             </Text>
-
-            {/* Main Stats */}
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Income</Text>
@@ -81,8 +90,6 @@ export default function EmailTemplate({
                 </Text>
               </div>
             </Section>
-
-            {/* Category Breakdown */}
             {data?.stats?.byCategory && (
               <Section style={styles.section}>
                 <Heading style={styles.heading}>Expenses by Category</Heading>
@@ -96,8 +103,6 @@ export default function EmailTemplate({
                 )}
               </Section>
             )}
-
-            {/* AI Insights */}
             {data?.insights && (
               <Section style={styles.section}>
                 <Heading style={styles.heading}>Welth Insights</Heading>
@@ -108,7 +113,6 @@ export default function EmailTemplate({
                 ))}
               </Section>
             )}
-
             <Text style={styles.footer}>
               Thank you for using Welth. Keep tracking your finances for better
               financial health!
@@ -120,6 +124,7 @@ export default function EmailTemplate({
   }
 
   if (type === "budget-alert") {
+    // ... (Budget alert code is unchanged) ...
     return (
       <Html>
         <Head />
@@ -153,8 +158,52 @@ export default function EmailTemplate({
       </Html>
     );
   }
+
+  // --- "BUDGET EXCEEDED" EMAIL ---
+  if (type === "budget-exceeded") {
+    return (
+      <Html>
+        <Head />
+        <Preview>URGENT: Budget Exceeded</Preview>
+        <Body style={styles.body}>
+          <Container style={styles.container}>
+            {/* Using a new 'danger' style for the title */}
+            <Heading style={styles.titleDanger}>Budget Exceeded</Heading>
+            <Text style={styles.text}>Hello {userName},</Text>
+            <Text style={styles.text}>
+              You have exceeded your monthly budget of $
+              {data?.budgetAmount?.toFixed(2)} by{" "}
+              <strong style={{ color: "#ef4444" }}>
+                ${data?.overAmount?.toFixed(2)}
+              </strong>
+              .
+            </Text>
+            <Section style={styles.statsContainer}>
+              <div style={styles.stat}>
+                <Text style={styles.text}>Budget Amount</Text>
+                <Text style={styles.heading}>
+                  ${data?.budgetAmount?.toFixed(2)}
+                </Text>
+              </div>
+              <div style={styles.stat}>
+                <Text style={styles.text}>Total Spent</Text>
+                <Text style={styles.headingDanger}>
+                  ${data?.totalExpenses?.toFixed(2)}
+                </Text>
+              </div>
+            </Section>
+            <Text style={styles.text}>
+              We recommend reviewing your recent transactions to manage your
+              spending.
+            </Text>
+          </Container>
+        </Body>
+      </Html>
+    );
+  }
 }
 
+// --- Styles (with new 'danger' styles added) ---
 const styles = {
   body: {
     backgroundColor: "#f6f9fc",
@@ -174,8 +223,23 @@ const styles = {
     textAlign: "center",
     margin: "0 0 20px",
   },
+  // --- NEW ---
+  titleDanger: {
+    color: "#ef4444", // Red color for urgency
+    fontSize: "32px",
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: "0 0 20px",
+  },
   heading: {
     color: "#1f2937",
+    fontSize: "20px",
+    fontWeight: "600",
+    margin: "0 0 16px",
+  },
+  // --- NEW ---
+  headingDanger: {
+    color: "#ef4444", // Red color for urgency
     fontSize: "20px",
     fontWeight: "600",
     margin: "0 0 16px",

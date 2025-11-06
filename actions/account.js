@@ -111,6 +111,31 @@ export async function bulkDeleteTransactions(transactionIds) {
   }
 }
 
+export async function getUserAccounts() {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const accounts = await db.account.findMany({
+    where: {
+      userId: user.id,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  // Ensure balances and amounts are serialized correctly
+  return accounts.map(serializeDecimal);
+}
+
 export async function updateDefaultAccount(accountId) {
   try {
     const { userId } = await auth();

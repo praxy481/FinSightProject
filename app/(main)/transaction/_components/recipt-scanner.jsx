@@ -26,11 +26,23 @@ export function ReceiptScanner({ onScanComplete }) {
   };
 
   useEffect(() => {
+    // Check if data is available and loading is finished
     if (scannedData && !scanReceiptLoading) {
-      onScanComplete(scannedData);
-      toast.success("Receipt scanned successfully");
+      // Check if the scannedData object is not empty (which signals a successful extraction)
+      if (Object.keys(scannedData).length > 0) {
+        onScanComplete(scannedData);
+        toast.success("Receipt scanned successfully! 🎉");
+      } else {
+        // This handles the case where the AI returns {} (not a receipt)
+        toast.warning(
+          "The AI could not recognize a receipt in the image. Please try again."
+        );
+        // You can still call onScanComplete(scannedData) here if the parent 
+        // component needs a signal to reset or close a dialog.
+        onScanComplete(scannedData);
+      }
     }
-  }, [scanReceiptLoading, scannedData]);
+}, [scanReceiptLoading, scannedData, onScanComplete]); // Add onScanComplete to dependencies
 
   return (
     <div className="flex items-center gap-4">

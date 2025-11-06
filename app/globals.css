@@ -4,6 +4,36 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  /* ADDED: Aurora Background Effect */
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* MODIFIED: This pseudo-element creates the animated glow.
+  It's stronger and moves.
+*/
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+      circle at 10% 20%,
+      hsl(var(--primary) / 0.25),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 90%,
+      hsl(var(--chart-1) / 0.2),
+      transparent 50%
+    );
+  filter: blur(120px);
+  z-index: -1;
+  /* ADDED: Animation from tailwind.config.js */
+  background-size: 200% 200%;
+  @apply animate-aurora;
 }
 
 html {
@@ -62,37 +92,23 @@ html {
   .gradient-title {
     @apply gradient font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
   }
-}
 
-.hero-image-wrapper {
-  perspective: 1000px;
-}
-
-.hero-image {
-  /* transform: rotateX(20deg) scale(0.9) translateY(-50); */
-  transform: rotateX(15deg) scale(1);
-  transition: transform 0.5s ease-out;
-  will-change: transform;
-}
-
-.hero-image.scrolled {
-  transform: rotateX(0deg) scale(1) translateY(40px);
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
+  /* NEW: Replaces all other card styles */
+  .glass-card {
+    /* Frosted glass effect */
+    @apply backdrop-blur-md bg-[hsl(var(--card)/0.6)];
+    
+    /* Subtle border */
+    @apply border border-[hsl(var(--border)/0.2)];
+    
+    /* Standard Card component styles */
+    @apply rounded-lg;
   }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
+  
+  /* NEW: Gradient text helper */
+  .text-gradient {
+    @apply bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent;
   }
 }
 
-/* Add this class */
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradientMove 3s ease infinite;
-}
+/* Removed old .hero-image styles, .animate-gradient */

@@ -22,14 +22,14 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
+// Using theme colors for the chart
 const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEEAD",
-  "#D4A5A5",
-  "#9FA8DA",
+  "hsl(var(--primary))",
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
 ];
 
 export function DashboardOverview({ accounts, transactions }) {
@@ -79,7 +79,8 @@ export function DashboardOverview({ accounts, transactions }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {/* Recent Transactions Card */}
-      <Card>
+      {/* NEW: Apply glass-card style */}
+      <Card className="glass-card">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <CardTitle className="text-base font-normal">
             Recent Transactions
@@ -107,12 +108,27 @@ export function DashboardOverview({ accounts, transactions }) {
                 No recent transactions
               </p>
             ) : (
+              /* NEW: Visual list for transactions */
               recentTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between"
+                  className="flex items-center space-x-4"
                 >
-                  <div className="space-y-1">
+                  <div
+                    className={cn(
+                      "flex items-center justify-center w-10 h-10 rounded-full",
+                      transaction.type === "EXPENSE"
+                        ? "bg-red-500/10 text-red-500"
+                        : "bg-green-500/10 text-green-500"
+                    )}
+                  >
+                    {transaction.type === "EXPENSE" ? (
+                      <ArrowDownRight className="h-4 w-4" />
+                    ) : (
+                      <ArrowUpRight className="h-4 w-4" />
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium leading-none">
                       {transaction.description || "Untitled Transaction"}
                     </p>
@@ -120,22 +136,9 @@ export function DashboardOverview({ accounts, transactions }) {
                       {format(new Date(transaction.date), "PP")}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={cn(
-                        "flex items-center",
-                        transaction.type === "EXPENSE"
-                          ? "text-red-500"
-                          : "text-green-500"
-                      )}
-                    >
-                      {transaction.type === "EXPENSE" ? (
-                        <ArrowDownRight className="mr-1 h-4 w-4" />
-                      ) : (
-                        <ArrowUpRight className="mr-1 h-4 w-4" />
-                      )}
-                      ${transaction.amount.toFixed(2)}
-                    </div>
+                  <div className="font-medium">
+                    {transaction.type === "EXPENSE" ? "-" : "+"}
+                    ${transaction.amount.toFixed(2)}
                   </div>
                 </div>
               ))
@@ -145,7 +148,8 @@ export function DashboardOverview({ accounts, transactions }) {
       </Card>
 
       {/* Expense Breakdown Card */}
-      <Card>
+      {/* NEW: Apply glass-card style */}
+      <Card className="glass-card">
         <CardHeader>
           <CardTitle className="text-base font-normal">
             Monthly Expense Breakdown
@@ -167,7 +171,10 @@ export function DashboardOverview({ accounts, transactions }) {
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, value }) => `${name}: $${value.toFixed(2)}`}
+                    labelLine={false}
+                    label={({ name, percent }) =>
+                      `${name} (${(percent * 100).toFixed(0)}%)`
+                    }
                   >
                     {pieChartData.map((entry, index) => (
                       <Cell
@@ -179,12 +186,22 @@ export function DashboardOverview({ accounts, transactions }) {
                   <Tooltip
                     formatter={(value) => `$${value.toFixed(2)}`}
                     contentStyle={{
-                      backgroundColor: "hsl(var(--popover))",
-                      border: "1px solid hsl(var(--border))",
+                      backgroundColor: "rgba(0, 0, 0, 0.7)", // Translucent black background
+                      border: "1px solid rgba(255, 255, 255, 0.2)", // Subtle white border
                       borderRadius: "var(--radius)",
                     }}
+                    itemStyle={{
+                      color: "white", // White text for items
+                    }}
+                    labelStyle={{
+                      color: "white", // White text for label
+                    }}
                   />
-                  <Legend />
+                  <Legend
+                    formatter={(value) => (
+                      <span className="text-foreground/80">{value}</span>
+                    )}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>

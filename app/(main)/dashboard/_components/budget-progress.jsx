@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Pencil, Check, X } from "lucide-react";
 import useFetch from "@/hooks/use-fetch";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils"; // Import cn
 
 import {
   Card,
@@ -64,7 +65,8 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
   }, [error]);
 
   return (
-    <Card>
+    // NEW: Apply glass-card style
+    <Card className="glass-card">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex-1">
           <CardTitle className="text-sm font-medium">
@@ -102,11 +104,18 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
             ) : (
               <>
                 <CardDescription>
-                  {initialBudget
-                    ? `$${currentExpenses.toFixed(
-                        2
-                      )} of $${initialBudget.amount.toFixed(2)} spent`
-                    : "No budget set"}
+                  {initialBudget ? (
+                    <span>
+                      ${currentExpenses.toFixed(2)} of{" "}
+                      {/* NEW: Gradient text for total budget */}
+                      <span className="text-gradient font-medium">
+                        ${initialBudget.amount.toFixed(2)}
+                      </span>{" "}
+                      spent
+                    </span>
+                  ) : (
+                    "No budget set"
+                  )}
                 </CardDescription>
                 <Button
                   variant="ghost"
@@ -124,16 +133,16 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
       <CardContent>
         {initialBudget && (
           <div className="space-y-2">
+            {/* NEW: Gradient progress bar */}
             <Progress
               value={percentUsed}
-              extraStyles={`${
-                // add to Progress component
-                percentUsed >= 90
-                  ? "bg-red-500"
-                  : percentUsed >= 75
-                    ? "bg-yellow-500"
-                    : "bg-green-500"
-              }`}
+              className={cn(
+                // Use the purple gradient by default
+                "[&>div]:gradient",
+                // Override with yellow/red at thresholds
+                percentUsed >= 75 && "[&>div]:bg-yellow-500",
+                percentUsed >= 90 && "[&>div]:bg-red-500"
+              )}
             />
             <p className="text-xs text-muted-foreground text-right">
               {percentUsed.toFixed(1)}% used

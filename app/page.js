@@ -9,7 +9,7 @@ import {
   Banknote,
   Megaphone,
   ArrowRight,
-} from "lucide-react"; // Import icons
+} from "lucide-react"; 
 
 // A component for the feature cards to keep code clean
 const FeatureCard = ({ icon: Icon, title, children }) => (
@@ -48,9 +48,9 @@ export default function Home() {
         <div className="relative z-10 max-w-4xl mx-auto">
           <p className="text-lg font-semibold text-primary mb-2">FinSight</p>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
-            <span className="text-gradient">Test-Tritle Tratbring-Tigt</span>
+            <span className="text-gradient">Your Money</span>
             <br />
-            <span className="text-foreground">Your Financial Command Center</span>
+            <span className="text-foreground">but make it make sense</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
             Gain clarity and control over your money with FinSight. Effortlessly
@@ -59,15 +59,6 @@ export default function Home() {
           <div className="flex gap-4 justify-center">
             <Button asChild className="px-8 py-6 text-lg">
               <Link href="/dashboard">Get Started</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="px-8 py-6 text-lg bg-transparent hover:bg-secondary"
-            >
-              <Link href="/features">
-                Learn More <ArrowRight className="h-4 w-4 ml-2" />
-              </Link>
             </Button>
           </div>
         </div>
@@ -82,7 +73,7 @@ export default function Home() {
           {/* Left Column (Text & 2 Cards) */}
           <div className="space-y-8">
             <h2 className="text-5xl md:text-6xl font-bold text-gradient leading-tight">
-              Simpliife Your Finances
+              Simplify Your Finances
             </h2>
             <p className="text-lg text-muted-foreground">
               Everything you need to manage your finances in one place. Stop
@@ -90,27 +81,27 @@ export default function Home() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FeatureCardWithBar icon={Wallet} title="Smart Budgeting">
-                Set all income budgets and track progress to keep spending in line.
+                 Set and track budgets instantly to control spending and reach your financial targets.
               </FeatureCardWithBar>
-              <FeatureCardWithBar icon={Banknote} title="Detailo Transactions">
-                Asternate twist log track 1 and detox their finimisme ease with.
+              <FeatureCardWithBar icon={Banknote} title="Unified Account View">
+                Connect accounts and view your total financial health and cash flow from one dashboard.
               </FeatureCardWithBar>
                 </div>
               </div>
 
           {/* Right Column (4 Cards Grid) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FeatureCard icon={LineChart} title="Intulilive Dashboard">
-              Set all income budgets! track espote to mit usanfiy.
+            <FeatureCard icon={LineChart} title="Financial Insights">
+              Visualize your money with dynamic charts and easy-to-read reports.
             </FeatureCard>
-            <FeatureCard icon={ShieldCheck} title="Smart Bedeltan">
-              Yet all income butpetes and betary/lace ecurity.
+            <FeatureCard icon={ShieldCheck} title="Smarter Budgeting">
+              Set monthly goals and track progress instantly to prevent overspending.
             </FeatureCard>
-            <FeatureCard icon={Zap} title="Detailed Reporting">
-              Mexiconconta mntl mer 2 fgt tes gray-400.
+            <FeatureCard icon={Zap} title="Effortless Transaction Entry">
+             Log expenses in seconds using the receipt scanner or a simple input form.
             </FeatureCard>
-            <FeatureCard icon={Megaphone} title="Recount Transactions">
-              Join thousande rut 6 naw 1 1 gtl ban. gray-400
+            <FeatureCard icon={Megaphone} title="Effortless Entry">
+              Quickly log transactions using our smart receipt scanner or a simple form, ensuring every income and expense is tracked accurately.
             </FeatureCard>
           </div>
         </div>
@@ -119,23 +110,14 @@ export default function Home() {
       {/* Call to Action Section */}
       <section className="w-full py-16 md:py-24 text-center glass-card max-w-5xl mx-auto my-12 p-8 md:p-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
-          Ready to take control? sm 44
+          Ready to take control? 
         </h2>
         <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-          Join thousands already managing their money with FinSight.
+          Secure your future and finally say goodbye to feeling broke.
         </p>
         <div className="flex gap-4 justify-center">
           <Button asChild className="px-8 py-6 text-lg animate-pulse">
-            <Link href="/auth/register">Start for Free</Link>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            className="px-8 py-6 text-lg bg-transparent hover:bg-secondary"
-          >
-            <Link href="/contact">
-              Contact Sales <ArrowRight className="h-4 w-4 ml-2" />
-            </Link>
+            <Link href="/dashboard">Start for Free</Link>
           </Button>
         </div>
       </section>

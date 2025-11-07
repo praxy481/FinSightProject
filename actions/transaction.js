@@ -230,7 +230,8 @@ export async function getUserTransactions(query = {}) {
 // Scan Receipt
 export async function scanReceipt(file) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // ⚡ MODEL FIX: Using the confirmed, supported model alias
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); 
 
     // Convert File to ArrayBuffer
     const arrayBuffer = await file.arrayBuffer();
@@ -267,8 +268,8 @@ export async function scanReceipt(file) {
       prompt,
     ]);
 
-    const response = await result.response;
-    const text = response.text();
+    // 🔨 RESPONSE ACCESS FIX: Accessing .text() from the response property of the result object
+    const text = result.response.text(); 
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
 
     try {
@@ -284,9 +285,12 @@ export async function scanReceipt(file) {
       console.error("Error parsing JSON response:", parseError);
       throw new Error("Invalid response format from Gemini");
     }
-  } catch (error) {
+  }  catch (error) {
+    // ✅ ERROR LOGGING: Logging the specific error message to aid debugging
     console.error("Error scanning receipt:", error);
-    throw new Error("Failed to scan receipt");
+    
+    // Throw the specific error message to the client
+    throw new Error(error.message || "Failed to scan receipt: An unknown error occurred.");
   }
 }
 

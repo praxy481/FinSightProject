@@ -8,6 +8,16 @@ const isProtectedRoute = createRouteMatcher([
   "/transaction(.*)",
 ]);
 
+export const config = {
+  runtime: "nodejs",
+  matcher: [
+    
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/",
+    "/(api|trpc)(.*)",
+  ],
+};
+ 
 
 const aj = arcjet({
   key: process.env.ARCJET_KEY,
@@ -41,13 +51,4 @@ const clerk = clerkMiddleware(async (auth, req) => {
 });
 
 
-export const config = {
-  runtime: "nodejs",
-  matcher: [
-    
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/",
-    "/(api|trpc)(.*)",
-  ],
-};
- 
+

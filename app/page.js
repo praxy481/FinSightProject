@@ -66,9 +66,6 @@ export default function Home() {
 
       {/* Features Section (2-Column) */}
       <section className="w-full max-w-7xl mx-auto py-16 md:py-24">
-        <p className="text-base text-muted-foreground text-center mb-2">
-          FeaturesSection
-        </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Column (Text & 2 Cards) */}
           <div className="space-y-8">

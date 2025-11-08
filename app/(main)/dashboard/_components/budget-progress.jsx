@@ -106,10 +106,10 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                 <CardDescription>
                   {initialBudget ? (
                     <span>
-                      ${currentExpenses.toFixed(2)} of{" "}
+                      ₹{currentExpenses.toFixed(2)} of{" "}
                       {/* NEW: Gradient text for total budget */}
                       <span className="text-gradient font-medium">
-                        ${initialBudget.amount.toFixed(2)}
+                        ₹{initialBudget.amount.toFixed(2)}
                       </span>{" "}
                       spent
                     </span>

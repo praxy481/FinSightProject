@@ -138,7 +138,7 @@ export function DashboardOverview({ accounts, transactions }) {
                   </div>
                   <div className="font-medium">
                     {transaction.type === "EXPENSE" ? "-" : "+"}
-                    ${transaction.amount.toFixed(2)}
+                    ₹ {transaction.amount.toFixed(2)}
                   </div>
                 </div>
               ))
@@ -184,7 +184,7 @@ export function DashboardOverview({ accounts, transactions }) {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value) => `$${value.toFixed(2)}`}
+                    formatter={(value) => `₹${value.toFixed(2)}`}
                     contentStyle={{
                       backgroundColor: "rgba(0, 0, 0, 0.7)", // Translucent black background
                       border: "1px solid rgba(255, 255, 255, 0.2)", // Subtle white border

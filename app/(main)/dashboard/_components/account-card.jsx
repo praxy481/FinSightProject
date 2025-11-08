@@ -71,7 +71,7 @@ export function AccountCard({ account }) {
         <CardContent className="p-0">
           {/* NEW: Gradient text for the balance */}
           <div className="text-3xl font-bold text-gradient my-2">
-            ${parseFloat(balance).toFixed(2)}
+            ₹ {parseFloat(balance).toFixed(2)}
           </div>
           <p className="text-xs text-muted-foreground">
             {type.charAt(0) + type.slice(1).toLowerCase()} Account
